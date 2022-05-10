@@ -33,7 +33,6 @@ button {
   place-content: center;
   cursor: pointer;
 }
-
 .empty {
   background-color: white;
   pointer-events: none;
