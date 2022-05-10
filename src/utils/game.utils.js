@@ -106,7 +106,8 @@ function moveRight(board, indices) {
   return;
 }
 
-function moveTile(board, indices) {
+function moveTile(oldBoard, indices) {
+  const board = structuredClone(oldBoard);
   if (canMoveDown(board, indices)) {
     moveDown(board, indices);
     return board;
