@@ -1,9 +1,10 @@
 <template>
-  <div class="finished-msg" v-if="isFinished">
-    <h2>You Won!</h2>
+  <div class="info-container">
     <button class="start-btn" @click="startGame">start new game</button>
+    <div class="moves-info">Moves: {{ moves }}</div>
   </div>
-  <transition-group tag="main" name="animate-tile" v-else class="game-board">
+
+  <transition-group tag="main" name="animate-tile" class="game-board">
     <template v-for="(row, rowIndex) in gameBoard">
       <AppTile
         v-for="(num, columnIndex) in row"
@@ -25,6 +26,8 @@
     moveTile,
   } from "./utils/game.utils";
 
+  import winConfetti from "./utils/confetti";
+
   export default {
     name: "App",
     components: { AppTile },
@@ -33,17 +36,10 @@
       return {
         rowsAndColumns: 4,
         gameBoard: [],
+        isWon: false,
+        solvedBoard: [],
+        moves: 0,
       };
-    },
-
-    computed: {
-      solvedBoard() {
-        return createBoardNums(this.rowsAndColumns);
-      },
-
-      isFinished() {
-        return hasWon(this.gameBoard, this.solvedBoard);
-      },
     },
 
     created() {
@@ -52,11 +48,30 @@
 
     methods: {
       handleTileClick(ev) {
-        this.gameBoard = moveTile(this.gameBoard, ev);
+        if (this.isWon) return;
+        const { board, moved } = moveTile(this.gameBoard, ev);
+        if (moved) {
+          this.gameBoard = board;
+          this.moves = this.moves + 1;
+        }
       },
 
       startGame() {
+        this.moves = 0;
+        this.solvedBoard = createBoardNums(this.rowsAndColumns);
         this.gameBoard = createBoard(this.solvedBoard);
+      },
+    },
+
+    watch: {
+      gameBoard: {
+        handler: function () {
+          if (hasWon(this.gameBoard, this.solvedBoard)) {
+            this.isWon = true;
+            winConfetti();
+          }
+        },
+        deep: true,
       },
     },
   };
@@ -85,11 +100,18 @@
     height: 400px;
   }
 
-  .finished-msg {
+  .info-container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .moves-info {
+    border: 1px solid darkcyan;
+    padding: 10px;
+    border-radius: 5px;
+    width: 7rem;
   }
 
   .start-btn {
@@ -99,13 +121,13 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    transition-duration: 0.3s;
+    transition-duration: 0.1s;
     transition-property: all;
     transition-timing-function: ease-in-out;
   }
 
   .start-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.01);
   }
 
   .animate-tile-move {

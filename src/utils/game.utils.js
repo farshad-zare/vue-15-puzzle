@@ -1,4 +1,4 @@
-const deepCopyFunction = (inObject) => {
+const deepCopy = (inObject) => {
   let outObject, value, key;
 
   if (typeof inObject !== "object" || inObject === null) {
@@ -11,7 +11,7 @@ const deepCopyFunction = (inObject) => {
     value = inObject[key];
 
     // Recursively (deep) copy for nested objects, including arrays
-    outObject[key] = deepCopyFunction(value);
+    outObject[key] = deepCopy(value);
   }
 
   return outObject;
@@ -27,8 +27,9 @@ function createBoardNums(rows = 4) {
   return boardNums;
 }
 
-function createBoard(numArray) {
-  const rowColumns = Math.sqrt(numArray.length);
+function createBoard(arrayOfNums) {
+  const rowColumns = Math.sqrt(arrayOfNums.length);
+  const numArray = deepCopy(arrayOfNums);
   const board = [];
   for (let rowNum = 0; rowNum < rowColumns; rowNum++) {
     const row = [];
@@ -128,21 +129,21 @@ function moveRight(board, indices) {
 function moveTile(board, indices) {
   if (canMoveDown(board, indices)) {
     moveDown(board, indices);
-    return board;
+    return { board, moved: true };
   }
   if (canMoveUp(board, indices)) {
     moveUp(board, indices);
-    return board;
+    return { board, moved: true };
   }
   if (canMoveLeft(board, indices)) {
     moveLeft(board, indices);
-    return board;
+    return { board, moved: true };
   }
   if (canMoveRight(board, indices)) {
     moveRight(board, indices);
-    return board;
+    return { board, moved: true };
   }
-  return board;
+  return { board, moved: false };
 }
 
 function hasWon(board, solvedBoard) {
