@@ -5,36 +5,43 @@
 </template>
 
 <script>
-export default {
-  name: "AppTile",
-  props: ["value", "indices"],
-  emits: ["clickedtile"],
+  export default {
+    name: "AppTile",
+    props: ["value", "indices"],
+    emits: ["clickedtile"],
 
-  computed: {
-    isEmpty() {
-      return this.value === 0 ? true : false;
+    computed: {
+      isEmpty() {
+        return this.value === 0 ? true : false;
+      },
     },
-  },
 
-  methods: {
-    clickHandler() {
-      this.$emit("clickedtile", this.indices);
+    methods: {
+      clickHandler() {
+        this.$emit("clickedtile", this.indices);
+      },
     },
-  },
-};
+  };
 </script>
 
 <style scoped>
-button {
-  width: 100%;
-  height: 100%;
-  background-color: bisque;
-  display: grid;
-  place-content: center;
-  cursor: pointer;
-}
-.empty {
-  background-color: white;
-  pointer-events: none;
-}
+  button {
+    width: 100%;
+    height: 100%;
+    font-weight: 500;
+    font-size: 1.1rem;
+    background-color: bisque;
+    border: 1px solid burlywood;
+    border-radius: 5px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    z-index: 8;
+  }
+  .empty {
+    border: 1px solid white;
+    background-color: rgb(255, 255, 255);
+    pointer-events: none;
+    z-index: 5;
+  }
 </style>

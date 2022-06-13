@@ -125,8 +125,7 @@ function moveRight(board, indices) {
   return;
 }
 
-function moveTile(oldBoard, indices) {
-  const board = deepCopyFunction(oldBoard);
+function moveTile(board, indices) {
   if (canMoveDown(board, indices)) {
     moveDown(board, indices);
     return board;
