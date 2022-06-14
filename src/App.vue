@@ -90,6 +90,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background: linear-gradient(to right, #3a6073, #16222a);
   }
 
   .game-board {
@@ -112,6 +114,7 @@
     padding: 10px;
     border-radius: 5px;
     width: 7rem;
+    color: cornsilk;
   }
 
   .start-btn {
@@ -124,10 +127,6 @@
     transition-duration: 0.1s;
     transition-property: all;
     transition-timing-function: ease-in-out;
-  }
-
-  .start-btn:hover {
-    transform: scale(1.01);
   }
 
   .animate-tile-move {

@@ -31,7 +31,6 @@
     font-weight: 500;
     font-size: 1.1rem;
     background-color: bisque;
-    border: 1px solid burlywood;
     border-radius: 5px;
     display: grid;
     place-content: center;
@@ -39,8 +38,8 @@
     z-index: 8;
   }
   .empty {
-    border: 1px solid white;
-    background-color: rgb(255, 255, 255);
+    background-color: transparent;
+    border: none;
     pointer-events: none;
     z-index: 5;
   }
